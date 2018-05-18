@@ -1,0 +1,121 @@
+  <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>图书管理</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .head {
+            margin-top: 50px;
+        }
+
+        .divput {
+            float: left;
+            margin-left: 35%;
+            width: 310px;
+            line-height: 200%;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="head">
+        <p align="center" style="font-size:30px">图书管理平台</p>
+    </div>
+
+    <div class="divput">
+
+        <div style="float:right;font-size:20px">
+            序号：
+            <input type="text" id="booknum" style="height:28px;width:210px">
+        </div>
+        <div style="float:right;font-size:20px" style="height:28px;width:210px">
+            书名：
+            <input type="text" id="bookname" style="height:28px;width:210px">
+        </div>
+
+        <div style="float:right;font-size:20px">
+            定价：
+            <input type="text" id="bookmoney" style="height:28px;width:210px">
+        </div>
+
+        <div style="float:right;font-size:20px">
+            作者：
+            <input type="text" id="bookau" style="height:28px;width:210px">
+        </div>
+    </div>
+    <div style="text-align:center;margin-top:180px;">
+        <button style="font-size:18px">添加图书</button>
+        <p style="text-align:center;font-size:20px;margin-top:10px">现存图书列表</p>
+    </div>
+    <table id="table1" width="70%" border='1' cellspacing="1" cellpadding="5" style="margin-left:185px">
+        <tr>
+            <th>序号</th>
+            <th>书名</th>
+            <th>定价</th>
+            <th>作者</th>
+            <th>操作</th>
+        </tr>
+    </table>
+    <script>
+        var oButton = document.getElementsByTagName('button')[0];
+        oButton.onclick = function addBook() {
+            var values = new Array(4);
+            values[0] = document.getElementById('booknum').value;
+            values[1] = document.getElementById('bookname').value;
+            values[2] = document.getElementById('bookmoney').value;
+            values[3] = document.getElementById('bookau').value;
+            var table = document.getElementById('table1');
+            var newRow = table.insertRow(table.rows.length);
+            newRow.id = values[0];
+            
+            for (var i = 0; i < values.length; i++) {
+                var cell = newRow.insertCell(i);
+                cell.align = "center"; 
+                cell.innerHTML = (values[i]);
+            }
+            var cell = newRow.insertCell(4);
+            cell.align = "center";
+            // console.log(newRow.id)
+            cell.innerHTML = '<a href="JavaScript:modifyBook(\'' + newRow.id + '\')"> 修改 </a>' +
+                '&nbsp&nbsp;<a href="#" onclick="deleteBook(\'' + newRow.id + '\')">删除</a > '
+        }
+
+        function modifyBook(id) {
+            var values = new Array(4);
+            values[0] = document.getElementById('booknum').value;
+            values[1] = document.getElementById('bookname').value;
+            values[2] = document.getElementById('bookmoney').value;
+            values[3] = document.getElementById('bookau').value;
+            var updateRow = document.getElementById(id);
+            for (var i = 0; i < values.length; i++) {
+                updateRow.cells[i].innerHTML = values[i];
+            }
+            updateRow.id = "row" + values[0];
+            updateRow.cells[4].innerHTML = '<a href="JavaScript:modifyBook(\''+ updateRow.id + '\')"> 修改 </a>' +
+                '&nbsp;&nbsp;<a href="#" onclick="deleteBook(\''+ updateRow.id + '\')">删除</a >'
+
+        }
+
+        function deleteBook(id) {
+            var que = confirm("您确定删除序号为" + id + "的图书吗");
+            if (que == true) {
+                var delRow = document.getElementById(id);
+                var table = document.getElementById('table1').getElementsByTagName('tbody')[0];
+                table.removeChild(delRow);
+            }
+        }
+    </script>
+
+</body>
+
+</html>
